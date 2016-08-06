@@ -4,71 +4,73 @@
 	<meta charset="UTF-8">
 	<title>AJAX</title>
 	<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/lodash/4.14.1/lodash.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/lodash/4.14.1/lodash.min.js"></script>
 
-  
-<style type="text/css">
-	body {
-		text-align: center;
-	}
-	ul,li {
-		margin :50px;
-	}
 
-</style>
+	<style type="text/css">
+		body {
+			text-align: center;
+		}
+		ul {
+			list-style-type:none;
+		}
+		li {
+			margin :50px;
+		}
+
+	</style>
 
 </head>
 <body>
 
-<div class="jumbotron">
-  <h1>AJAX</h1>
-  <p>You can find a repo or create a Gist</p>
- </div>
+	<div class="jumbotron">
+		<h1>AJAX</h1>
+		<p>You can find a repo or create a Gist</p>
+	</div>
 
-<div class="row">
-  <div class="col-md-6 col-sm-6 col-xs-6">
-  <input class="form-control input-lg" type="text" placeholder="type repo" id="repoInput">
-<div id="search-holder"></div>
+	<div class="row">
+		<div class="col-md-6 col-sm-6 col-xs-6">
+			<input class="form-control input-lg" type="text" placeholder="type repo" id="repoInput">
+			<div id="search-holder"></div>
 
-  </div>
+		</div>
 
-  <div class="col-md-6 col-sm-6 col-xs-6">
-  	<input class="form-control input-lg" type="text" placeholder="type file.txt">
-  	<textarea class="form-control" rows="3"></textarea>
-  	<button type="button" class="btn btn-primary">Create Gist</button>
-  	<br>
-  	<a class="btn btn-default" href="#" role="button"></a>
-  </div>
-  
-</div>
+		<div class="col-md-6 col-sm-6 col-xs-6">
+			<input class="form-control input-lg" type="text" placeholder="type file.txt" id="inputGf">
+			<textarea class="form-control" rows="3" id="textGf"></textarea>
+			<button type="button" class="btn btn-primary" id="createGist" onclick="gist()">Create Gist</button>
+			<br>
+			<div id="gist-holder"></div>
+		</div>  
+	</div>
 
 
-<script id="search-template" type="text/template">
-  
-  <% for(var i = 0; i < items.length; i++) { %>
-  <ul> 
-  <h1>TOP <%=i+1%></h1>  
-  	<li><b>full_name </b><%=items[i].full_name%></li>
-  	<li><b>description </b><%=items[i].description%></li>
-  	<li><b>language </b><%=items[i].language%></li>
-  	<li><b>link </b><a href="<%=items[i].html_url%>"><%=items[i].html_url%></a></li>
-  	 <% } %>
-  </ul>
-  </script>
+	<script id="search-template" type="text/template">  
+		<% for(var i = 0; i < items.length; i++) { %>
+		<ul> 
+			<h1>TOP <%=i+1%></h1>  
+			<li><b>full_name </b><%=items[i].full_name%></li>
+			<li><b>description </b><%=items[i].description.slice(0,30)+"..."%></li>
+			<li><b>language </b><%=items[i].language%></li>
+			<li><b>link </b><a href="<%=items[i].commits_url.html_url%>"><%=items[i].commits_url.html_url%></a></li>
+			<% } %>
+		</ul>
+	</script>
 
 
 
+	<script id="gist-template" type="text/template">   
+		<b>link </b><a href="<%=items.html_url%>"><%=items.html_url%></a>
 
-
-
+	</script>
 	<script type="text/javascript" src="script.js"></script>
 </body>
 </html>
